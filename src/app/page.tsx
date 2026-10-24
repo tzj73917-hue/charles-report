@@ -1,69 +1,91 @@
-import Image from "next/image";
+import Link from "next/link";
+import HeroCube from "@/components/cube/HeroCube";
+import { STEPS } from "@/lib/steps";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <section className="grid items-center gap-10 py-14 md:grid-cols-[1.1fr_1fr] md:py-20">
+        <div>
+          <p className="mb-4 inline-block rounded-full bg-accent-soft px-3 py-1 text-sm font-medium text-accent">
+            三階魔術方塊 · 新手入門
           </p>
+          <h1 className="text-4xl leading-tight font-bold tracking-tight text-ink sm:text-5xl">
+            七個步驟，
+            <br />
+            學會還原魔術方塊
+          </h1>
+          <p className="mt-5 max-w-lg text-lg leading-relaxed text-muted">
+            不需要天份，也不用背幾十個公式。跟著 3D 互動方塊一步一步看，每個公式都能播放、暫停、倒轉，
+            看懂每一步方塊怎麼動。
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              href="/notation"
+              className="rounded-full bg-accent px-6 py-3 font-semibold text-on-accent transition hover:opacity-90"
+            >
+              從轉動符號開始
+            </Link>
+            <Link
+              href="/playground"
+              className="rounded-full border border-line bg-surface px-6 py-3 font-semibold text-ink transition hover:border-accent"
+            >
+              先玩玩看
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="flex justify-center overflow-hidden">
+          <HeroCube />
         </div>
-      </main>
+      </section>
+
+      <section className="py-12">
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h2 className="text-2xl font-bold text-ink sm:text-3xl">層先法：一層一層完成</h2>
+            <p className="mt-2 text-muted">先做底層，再做中層，最後完成頂層。每一步都建立在上一步之上。</p>
+          </div>
+          <Link href="/learn" className="text-sm font-semibold text-accent hover:underline">
+            查看全部步驟 →
+          </Link>
+        </div>
+        <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {STEPS.map((step, i) => (
+            <li key={step.slug}>
+              <Link
+                href={`/learn/${step.slug}`}
+                className="group flex h-full flex-col rounded-2xl border border-line bg-surface p-5 transition hover:-translate-y-0.5 hover:border-accent"
+              >
+                <span className="font-mono text-sm font-semibold text-accent">步驟 {i + 1}</span>
+                <span className="mt-1 text-lg font-semibold text-ink">{step.title}</span>
+                <span className="mt-2 text-sm leading-relaxed text-muted">{step.short}</span>
+              </Link>
+            </li>
+          ))}
+          <li>
+            <Link
+              href="/playground"
+              className="flex h-full flex-col justify-center hud-panel rounded-2xl p-5 transition hover:-translate-y-0.5"
+            >
+              <span className="text-lg font-semibold">練習場 →</span>
+              <span className="mt-2 text-sm opacity-75">打亂方塊、計時，用學到的公式自己還原一次。</span>
+            </Link>
+          </li>
+        </ol>
+      </section>
+
+      <section className="grid gap-6 py-12 md:grid-cols-3">
+        {[
+          { title: "可以拖曳的 3D 方塊", body: "每個情況都用真的方塊狀態呈現，拖曳就能從各個角度看。" },
+          { title: "一步一步播放公式", body: "播放、暫停、上一步、下一步，點任一個轉動就能跳到那裡。" },
+          { title: "公式短又好記", body: "新手解法的公式都不長，很多還是左右鏡像，記住一個就等於學會兩個。" },
+        ].map((f) => (
+          <div key={f.title} className="rounded-2xl border border-line bg-surface-2 p-6">
+            <h3 className="font-semibold text-ink">{f.title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted">{f.body}</p>
+          </div>
+        ))}
+      </section>
     </div>
   );
 }
